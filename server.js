@@ -2,6 +2,10 @@ let express = require('express')
 let app = express();
 let port = 3000;
 
+app.get('/', (rep, res) => {
+    res.send('<h1>Home</h1>')
+})
+
 app.get('/v1/restaurants', (rep, res) => {
     // list mongo
     const response = [
