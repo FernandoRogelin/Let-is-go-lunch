@@ -6,13 +6,18 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 // Schema de validação
-// const Restaurants = require("./Models/restaurants");
+const Restaurants = require("./Models/restaurants");
 
 // Porta onde irei conectar
 const port = process.env.PORT;
 
 // Conecção com o mLab
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(
+  process.env.MONGODB_URI,
+  {
+    useNewUrlParser: true
+  }
+);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json);
