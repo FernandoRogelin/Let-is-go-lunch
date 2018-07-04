@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 // Schema de validação
-// const Restaurants = require("./Models/restaurants");
+const Restaurants = require("./Models/restaurants");
 
 // Porta onde irei conectar
 const port = process.env.PORT || 3000;
@@ -28,10 +28,10 @@ router
   .route("/v1/restaurants")
 
   .get(res => {
-    // Restaurants.find((error, restaurants) => {
-    //   if (error) res.send("Erro no retorno dos restaurantes");
-    //   res.json(restaurants);
-    // });
+    Restaurants.find((error, restaurants) => {
+      if (error) res.send("Erro no retorno dos restaurantes");
+      res.json(restaurants);
+    });
   });
 
 // .post((req, res) => {
