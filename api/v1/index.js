@@ -23,7 +23,7 @@ module.exports = () => {
       });
 
       restaurants.save(error => {
-        if (error) res.send("Restaurante não pode ser salvo");
+        if (error) return res.send("Restaurante não pode ser salvo");
 
         res.json({ message: "Restaurante salvo com sucesso!" });
       });
