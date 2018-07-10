@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const V1Api = require("./api/v1");
+const cors = require("cors");
 
 const app = express();
 
@@ -22,14 +23,7 @@ mongoose.connect(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-with, Content-Type, Accept"
-  );
-  res.end();
-});
+app.use(cors());
 
 app.use("/v1", V1Api());
 
