@@ -9,7 +9,7 @@ module.exports = () => {
 
     .get((req, res) => {
       Restaurants.find((error, restaurants) => {
-        if (error) res.send("Erro no retorno dos restaurantes");
+        if (error) return res.send("Erro no retorno dos restaurantes");
         res.json(restaurants);
       });
     })
@@ -37,7 +37,7 @@ module.exports = () => {
           _id: id
         },
         error => {
-          if (error) res.send("Id do produto não encontrado");
+          if (error) return res.send("Id do produto não encontrado");
 
           res.json({ message: "Produto deletado com sucesso!" });
         }
@@ -47,15 +47,25 @@ module.exports = () => {
     .put((req, res) => {
       const { id } = req.body;
       Restaurants.findById(id, (error, restaurant) => {
-        if (error) res.send("Id do produto não encontrado");
+        if (error) return res.send("Id do produto não encontrado");
 
         let restaurantUpdated = Object.assign(restaurant, req.body);
 
         restaurantUpdated.save(error => {
-          if (error) res.send("Erro ao tentar atualizar o produto");
+          if (error) return res.send("Erro ao tentar atualizar o produto");
 
           res.json({ message: "Produto atualizado com sucesso!" });
         });
+      });
+    });
+
+  app
+    .route("/restaurants/random")
+
+    .get((req, res) => {
+      Restaurants.aggregate([{ $sample: { size: 1 } }], (error, restaurant) => {
+        if (error) return res.send("Restaurante não enviado");
+        res.send(restaurant);
       });
     });
 
