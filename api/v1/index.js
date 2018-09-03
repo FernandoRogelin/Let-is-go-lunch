@@ -10,7 +10,7 @@ module.exports = () => {
     .get((req, res) => {
       Restaurants.find((error, restaurants) => {
         if (error)
-          return res.json({ message: "Erro no retorno dos restaurantes" });
+          return res.status(417).json({ message: "Erro no retorno dos restaurantes" });
         res.json(restaurants);
       });
     })
@@ -18,7 +18,9 @@ module.exports = () => {
     .post((req, res) => {
       const { name, amount, address } = req.body;
       if (!name)
-        return res.json({ message: "Necessário mandar o nome do restaurante" });
+        return res.status(417).json({
+          message: "Necessário mandar o nome do restaurante"
+        });
       const restaurants = new Restaurants({
         name,
         amount,
@@ -27,7 +29,7 @@ module.exports = () => {
 
       restaurants.save(error => {
         if (error)
-          return res.json({ message: "Restaurante não pode ser salvo" });
+          return res.status(417).json({ message: "Restaurante não pode ser salvo" });
 
         res.json({ message: "Restaurante salvo com sucesso!" });
       });
@@ -42,7 +44,7 @@ module.exports = () => {
         },
         error => {
           if (error)
-            return res.json({ message: "Id do produto não encontrado" });
+            return res.status(417).json({ message: "Id do produto não encontrado" });
 
           res.json({ message: "Produto deletado com sucesso!" });
         }
@@ -52,13 +54,13 @@ module.exports = () => {
     .put((req, res) => {
       const { id } = req.body;
       Restaurants.findById(id, (error, restaurant) => {
-        if (error) return res.json({ message: "Id do produto não encontrado" });
+        if (error) return res.status(417).json({ message: "Id do produto não encontrado" });
 
         let restaurantUpdated = Object.assign(restaurant, req.body);
 
         restaurantUpdated.save(error => {
           if (error)
-            return res.json({ message: "Erro ao tentar atualizar o produto" });
+            return res.status(417).json({ message: "Erro ao tentar atualizar o produto" });
 
           res.json({ message: "Produto atualizado com sucesso!" });
         });
@@ -70,7 +72,7 @@ module.exports = () => {
 
     .get((req, res) => {
       Restaurants.aggregate([{ $sample: { size: 1 } }], (error, restaurant) => {
-        if (error) return res.json({ message: "Restaurante não enviado" });
+        if (error) return res.status(417).json({ message: "Restaurante não enviado" });
         res.send(restaurant);
       });
     });
